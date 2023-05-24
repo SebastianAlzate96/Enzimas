@@ -21,7 +21,8 @@ for n in range(len(cond)):
     np.random.seed(1)
     filename='C:/Users/sebas/Desktop/Enzimas/data_all.csv'
     df=pd.read_csv(filename,sep=",")
-    df.columns = ['num','Time','Acceptor', 'donor','condition','trayectory']
+    new_column_names = ['num', 'Time', 'Acceptor', 'donor', 'condition', 'trayectory']
+    df.columns = pd.Index(new_column_names)
 
 
 

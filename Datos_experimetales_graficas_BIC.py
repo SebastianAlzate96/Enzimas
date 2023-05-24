@@ -25,7 +25,8 @@ states=[2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
 
 filename='C:/Users/sebas/Desktop/Enzimas/data_all.csv'
 df=pd.read_csv(filename,sep=",")
-df.columns = ['num','Time','Acceptor', 'donor','condition','trayectory']
+new_column_names = ['num', 'Time', 'Acceptor', 'donor', 'condition', 'trayectory']
+df.columns = pd.Index(new_column_names)
 np.random.seed(1)
 
 df=df[df['trayectory']==3]
@@ -67,7 +68,8 @@ for k in range(len(cond)):
     for j in range(len(trayec)):
         filename='C:/Users/sebas/Desktop/Enzimas/data_all.csv'
         df=pd.read_csv(filename,sep=",")
-        df.columns = ['num','Time','Acceptor', 'donor','condition','trayectory']
+        new_column_names = ['num', 'Time', 'Acceptor', 'donor', 'condition', 'trayectory']
+        df.columns = pd.Index(new_column_names)
         np.random.seed(1)
         df=df[df['trayectory']==trayec[j]]
         df=df[df['condition']==cond[k]]

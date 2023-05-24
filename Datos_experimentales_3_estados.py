@@ -36,7 +36,8 @@ np.random.seed(1)
 # Cambiar ruta
 filename='C:/Users/sebas/Desktop/Enzimas/data_all.csv'
 df=pd.read_csv(filename,sep=",")
-df.columns = ['num','Time','Acceptor', 'donor','condition','trayectory']
+new_column_names = ['num', 'Time', 'Acceptor', 'donor', 'condition', 'trayectory']
+df.columns = pd.Index(new_column_names)
 
 # Condiciones de desnaturalizante
 cond=[0.0,0.1,0.2,0.4,0.6,0.8,1.0,1.5,2.0,3.0]

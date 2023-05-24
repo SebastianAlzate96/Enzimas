@@ -227,255 +227,260 @@ duracion_rafaga(markovmodel_P, Y)
 -------------------------------------------------------------------------------  
 """
 
+input("Graficas: si=1 no=0")
+for i in range(0,1):
+    if (input() != "1"):
+        print("Fin")
+        break
+    else:
+        """
+        ## Histogramas de conteos de la aceptora y donante
+        """
 
-"""
-## Histogramas de conteos de la aceptora y donante
-"""
-
-t=800 # definir el punto de tiempo
-fig, ax = plt.subplots()
-lista = list(range(t))
-datos = {'Acceptor':X[:t,0],'Donor':X[:t,1]}
-ax.plot(lista, datos['Acceptor'], label = 'Acceptor')
-ax.plot(lista, datos['Donor'], label = 'Donor')
-ax.legend(loc = 'upper left')
-ax.set_xlabel("Tiempo")
-#plt.savefig('his_Poisson_acep_20.0_don_30.0.png', bbox_inches='tight', transparent=True)
-plt.show()
-
-
-"""
-## Histogramas para la suma de conteos de la aceptora y donante
-"""
-
-t=800 # definir el punto de tiempo
-fig, ax = plt.subplots()
-lista = list(range(t))
-datos = {'Total':X[:t,0]+X[:t,1]}
-ax.plot(lista, datos['Total'], label = 'Conteo total')
-ax.legend(loc = 'upper left')
-ax.set_xlabel("Tiempo")
-#plt.savefig('his_total_Poisson_acep_20.0_don_30.0.png', bbox_inches='tight', transparent=True)
-plt.show()
+        t=800 # definir el punto de tiempo
+        fig, ax = plt.subplots()
+        lista = list(range(t))
+        datos = {'Acceptor':X[:t,0],'Donor':X[:t,1]}
+        ax.plot(lista, datos['Acceptor'], label = 'Acceptor')
+        ax.plot(lista, datos['Donor'], label = 'Donor')
+        ax.legend(loc = 'upper left')
+        ax.set_xlabel("Tiempo")
+        #plt.savefig('his_Poisson_acep_20.0_don_30.0.png', bbox_inches='tight', transparent=True)
+        plt.show()
 
 
-"""
-## Camino Viterbi para 3 estados
-"""
+        """
+        ## Histogramas para la suma de conteos de la aceptora y donante
+        """
 
-n_states=3
-markovmodel_P = PoissonHMM(n_components=n_states,n_iter=1000)
-markovmodel_P.fit(X) #Estima los parámetros del modelo
-
-states= markovmodel_P.predict(X) #Encuentre la secuencia de estado más probable correspondiente a X.
-
-# Camino Viterbi
-markovmodel_P.means_=markovmodel_P.means_
-lam_=markovmodel_P.means_[:,0][states[:t]]
-lam=list(markovmodel_P.means_[:,0])
-list_=list(np.sort(lam))
-
-# Organizar para que el estado cero sea el background
-for i in range(n_states):
-  lam_[lam_==list_[i]]=i
-  
-
-fig, ax = plt.subplots()
-ax.plot(lam_, color = 'green')
-ax.set_ylabel('Estado')
-ax.set_xlabel('Tiempo')
-plt.yticks(range(0,3,1))
-#plt.savefig('viterbi_3_states_Poisson_acep_20.0_don_30.0.png', bbox_inches='tight', transparent=True)
-plt.show()
-
-"""
-## Camino Viterbi 4 estados
-"""
-
-n_states=4
-np.random.seed(1)
-
-markovmodel_P = PoissonHMM(n_components=n_states,n_iter=1000)
-markovmodel_P.fit(X) #Estima los parámetros del modelo
-
-states= markovmodel_P.predict(X) #Encuentre la secuencia de estado más probable correspondiente a X.
-
-# Camino Viterbi
-markovmodel_P.means_=markovmodel_P.means_
-lam_=markovmodel_P.means_[:,0][states[:t]]
-lam=list(markovmodel_P.means_[:,0])
-list_=list(np.sort(lam))
-
-# Organizar para que el estado cero sea el background
-for i in range(n_states):
-  lam_[lam_==list_[i]]=i
-
-fig, ax = plt.subplots()
-ax.plot(lam_, color = 'green')
-ax.set_ylabel('Estado')
-ax.set_xlabel('Tiempo')
-plt.yticks(range(0,4,1))
-#plt.savefig('viterbi_4_states_Poisson_acep_20.0_don_30.0.png', bbox_inches='tight', transparent=True)
-plt.show()
-
-"""
-## Camino Viterbi 5 estados
-"""
-
-n_states=5
-np.random.seed(1)
-
-markovmodel_P = PoissonHMM(n_components=n_states,n_iter=1000)
-markovmodel_P.fit(X) #Estima los parámetros del modelo
-
-states= markovmodel_P.predict(X) #Encuentre la secuencia de estado más probable correspondiente a X.
-
-# Camino Viterbi
-markovmodel_P.means_=markovmodel_P.means_
-lam_=markovmodel_P.means_[:,0][states[:t]]
-lam=list(markovmodel_P.means_[:,0])
-list_=list(np.sort(lam))
-
-# Organizar para que el estado cero sea el background
-for i in range(n_states):
-  lam_[lam_==list_[i]]=i
-  
-fig, ax = plt.subplots()
-ax.plot(lam_, color = 'green')
-ax.set_ylabel('Estado')
-ax.set_xlabel('Tiempo')
-#plt.savefig('viterbi_5_states_Poisson_acep_20.0_don_30.0.png', bbox_inches='tight', transparent=True)
-plt.show()
+        t=800 # definir el punto de tiempo
+        fig, ax = plt.subplots()
+        lista = list(range(t))
+        datos = {'Total':X[:t,0]+X[:t,1]}
+        ax.plot(lista, datos['Total'], label = 'Conteo total')
+        ax.legend(loc = 'upper left')
+        ax.set_xlabel("Tiempo")
+        #plt.savefig('his_total_Poisson_acep_20.0_don_30.0.png', bbox_inches='tight', transparent=True)
+        plt.show()
 
 
+        """
+        ## Camino Viterbi para 3 estados
+        """
 
-"""
-## Pseudo Residuales -- Aceptora Uniforme
-"""
+        n_states=3
+        markovmodel_P = PoissonHMM(n_components=n_states,n_iter=1000)
+        markovmodel_P.fit(X) #Estima los parámetros del modelo
 
-fig = plt.figure(figsize=(15,15))
-fig.tight_layout()
-states=[2,3,4,5,6,7,8,9,10]
+        states= markovmodel_P.predict(X) #Encuentre la secuencia de estado más probable correspondiente a X.
 
-for h in range(2,5):
-  markovmodel = PoissonHMM(n_components=states[h-1],n_iter=1000)
-  np.random.seed(1)
-  markovmodel.fit(X)
-  lamb_=markovmodel.means_
-  gamma_=markovmodel.transmat_
-  delta_=markovmodel.get_stationary_distribution()
-  
-  ax = plt.subplot(4,4,h)
-  res_acep=pois_HMM_pseudo_residuals(x=X[:,0], delta=delta_, gamma=gamma_, lamb=lamb_[:,0], m=states[h-1])
+        # Camino Viterbi
+        markovmodel_P.means_=markovmodel_P.means_
+        lam_=markovmodel_P.means_[:,0][states[:t]]
+        lam=list(markovmodel_P.means_[:,0])
+        list_=list(np.sort(lam))
 
-  plt.axhline(y=1)
-  ax.hist(x=res_acep[1], color='gray', rwidth=0.5,density=True)
-  ax.set_title('Estados='+str(states[h-1]), loc = "center", fontdict = {'fontsize':14, 'fontweight':'normal', 'color':'black'})
-#plt.savefig('Aceptora_U_Poisson_acep_20.0_don_30.0.png', bbox_inches='tight', transparent=True)
-plt.show() #dibujamos el histogram
+        # Organizar para que el estado cero sea el background
+        for i in range(n_states):
+          lam_[lam_==list_[i]]=i
+          
+
+        fig, ax = plt.subplots()
+        ax.plot(lam_, color = 'green')
+        ax.set_ylabel('Estado')
+        ax.set_xlabel('Tiempo')
+        plt.yticks(range(0,3,1))
+        #plt.savefig('viterbi_3_states_Poisson_acep_20.0_don_30.0.png', bbox_inches='tight', transparent=True)
+        plt.show()
+
+        """
+        ## Camino Viterbi 4 estados
+        """
+
+        n_states=4
+        np.random.seed(1)
+
+        markovmodel_P = PoissonHMM(n_components=n_states,n_iter=1000)
+        markovmodel_P.fit(X) #Estima los parámetros del modelo
+
+        states= markovmodel_P.predict(X) #Encuentre la secuencia de estado más probable correspondiente a X.
+
+        # Camino Viterbi
+        markovmodel_P.means_=markovmodel_P.means_
+        lam_=markovmodel_P.means_[:,0][states[:t]]
+        lam=list(markovmodel_P.means_[:,0])
+        list_=list(np.sort(lam))
+
+        # Organizar para que el estado cero sea el background
+        for i in range(n_states):
+          lam_[lam_==list_[i]]=i
+
+        fig, ax = plt.subplots()
+        ax.plot(lam_, color = 'green')
+        ax.set_ylabel('Estado')
+        ax.set_xlabel('Tiempo')
+        plt.yticks(range(0,4,1))
+        #plt.savefig('viterbi_4_states_Poisson_acep_20.0_don_30.0.png', bbox_inches='tight', transparent=True)
+        plt.show()
+
+        """
+        ## Camino Viterbi 5 estados
+        """
+
+        n_states=5
+        np.random.seed(1)
+
+        markovmodel_P = PoissonHMM(n_components=n_states,n_iter=1000)
+        markovmodel_P.fit(X) #Estima los parámetros del modelo
+
+        states= markovmodel_P.predict(X) #Encuentre la secuencia de estado más probable correspondiente a X.
+
+        # Camino Viterbi
+        markovmodel_P.means_=markovmodel_P.means_
+        lam_=markovmodel_P.means_[:,0][states[:t]]
+        lam=list(markovmodel_P.means_[:,0])
+        list_=list(np.sort(lam))
+
+        # Organizar para que el estado cero sea el background
+        for i in range(n_states):
+          lam_[lam_==list_[i]]=i
+          
+        fig, ax = plt.subplots()
+        ax.plot(lam_, color = 'green')
+        ax.set_ylabel('Estado')
+        ax.set_xlabel('Tiempo')
+        #plt.savefig('viterbi_5_states_Poisson_acep_20.0_don_30.0.png', bbox_inches='tight', transparent=True)
+        plt.show()
 
 
-"""
-## Pseudo Residuales -- Donante Uniforme
-"""
 
-fig = plt.figure(figsize=(15,15))
-fig.tight_layout()
-states=[2,3,4,5,6,7,8,9,10]
+        """
+        ## Pseudo Residuales -- Aceptora Uniforme
+        """
 
-for h in range(2,5):
-  markovmodel = PoissonHMM(n_components=states[h-1],n_iter=1000)
-  np.random.seed(1)
-  markovmodel.fit(X)
-  lamb_=markovmodel.means_
-  gamma_=markovmodel.transmat_
-  delta_=markovmodel.get_stationary_distribution()
-  
-  ax = plt.subplot(4,4,h)
-  res_dono=pois_HMM_pseudo_residuals(x=X[:,1], delta=delta_, gamma=gamma_, lamb=lamb_[:,1], m=states[h-1])
+        fig = plt.figure(figsize=(15,15))
+        fig.tight_layout()
+        states=[2,3,4,5,6,7,8,9,10]
 
-  plt.axhline(y=1)
-  ax.hist(x=res_dono[1], color='gray', rwidth=0.5,density=True)
-  ax.set_title('Estados='+str(states[h-1]), loc = "center", fontdict = {'fontsize':14, 'fontweight':'normal', 'color':'black'})
-#plt.savefig('Donante_U_Poisson_acep_20.0_don_30.0.png', bbox_inches='tight', transparent=True)
-plt.show() #dibujamos el histogram
+        for h in range(2,5):
+          markovmodel = PoissonHMM(n_components=states[h-1],n_iter=1000)
+          np.random.seed(1)
+          markovmodel.fit(X)
+          lamb_=markovmodel.means_
+          gamma_=markovmodel.transmat_
+          delta_=markovmodel.get_stationary_distribution()
+          
+          ax = plt.subplot(4,4,h)
+          res_acep=pois_HMM_pseudo_residuals(x=X[:,0], delta=delta_, gamma=gamma_, lamb=lamb_[:,0], m=states[h-1])
 
-"""
-## Pseudo Residuales -- Aceptora Normal 
-"""
+          plt.axhline(y=1)
+          ax.hist(x=res_acep[1], color='gray', rwidth=0.5,density=True)
+          ax.set_title('Estados='+str(states[h-1]), loc = "center", fontdict = {'fontsize':14, 'fontweight':'normal', 'color':'black'})
+        #plt.savefig('Aceptora_U_Poisson_acep_20.0_don_30.0.png', bbox_inches='tight', transparent=True)
+        plt.show() #dibujamos el histogram
 
-fig = plt.figure(figsize=(15,15))
-fig.tight_layout()
-states=[2,3,4,5,6,7,8,9,10]
 
-for h in range(2,5):
-  markovmodel = PoissonHMM(n_components=states[h-1],n_iter=1000)
-  np.random.seed(1)
-  markovmodel.fit(X)
-  lamb_=markovmodel.means_
-  gamma_=markovmodel.transmat_
-  delta_=markovmodel.get_stationary_distribution()
-   
-  ax = plt.subplot(4,4,h)
-  res_acep=pois_HMM_pseudo_residuals(x=X[:,0], delta=delta_, gamma=gamma_, lamb=lamb_[:,0], m=states[h-1])
-    
-  x = np.arange(-4, 4, 0.001)
-  intervalos = range(-6, 7)
-  ax.plot (x, norm.pdf (x, 0, 1))
-  ax.hist(res_acep[0], color='gray', bins=intervalos,rwidth=0.85,density=True)
-  ax.set_title('Num. Estados='+str(states[h-1]), loc = "center", fontdict = {'fontsize':14, 'fontweight':'normal', 'color':'black'})
-  #plt.ylabel('')
-#plt.savefig('Aceptora_N_Poisson_acep_20.0_don_30.0.png', bbox_inches='tight', transparent=True)
-plt.show()
-  
-  
-"""
-## Pseudo Residuales -- Donante Normal
-"""
+        """
+        ## Pseudo Residuales -- Donante Uniforme
+        """
 
-fig = plt.figure(figsize=(15,15))
-fig.tight_layout()
-states=[2,3,4,5,6,7,8,9,10]
+        fig = plt.figure(figsize=(15,15))
+        fig.tight_layout()
+        states=[2,3,4,5,6,7,8,9,10]
 
-for h in range(2,5):
-  markovmodel = PoissonHMM(n_components=states[h-1],n_iter=1000)
-  np.random.seed(1)
-  markovmodel.fit(X)
-  lamb_=markovmodel.means_
-  gamma_=markovmodel.transmat_
-  delta_=markovmodel.get_stationary_distribution()
-  
-  ax = plt.subplot(4,4,h)
-  res_dono=pois_HMM_pseudo_residuals(x=X[:,1], delta=delta_, gamma=gamma_, lamb=lamb_[:,1], m=states[h-1])
-    
-  x = np.arange(-4, 4, 0.001)
-  intervalos = range(-6, 7)
-  ax.plot (x, norm.pdf (x, 0, 1))
-  ax.hist(res_dono[0], color='gray', bins=intervalos,rwidth=0.85,density=True)
-  ax.set_title('Num. Estados='+str(states[h-1]), loc = "center", fontdict = {'fontsize':14, 'fontweight':'normal', 'color':'black'})
-  #plt.ylabel('')
-#plt.savefig('Donante_N_Poisson_acep_20.0_don_30.0.png', bbox_inches='tight', transparent=True)
-plt.show()
+        for h in range(2,5):
+          markovmodel = PoissonHMM(n_components=states[h-1],n_iter=1000)
+          np.random.seed(1)
+          markovmodel.fit(X)
+          lamb_=markovmodel.means_
+          gamma_=markovmodel.transmat_
+          delta_=markovmodel.get_stationary_distribution()
+          
+          ax = plt.subplot(4,4,h)
+          res_dono=pois_HMM_pseudo_residuals(x=X[:,1], delta=delta_, gamma=gamma_, lamb=lamb_[:,1], m=states[h-1])
 
-"""
-## Grafica del *BIC*
-"""
+          plt.axhline(y=1)
+          ax.hist(x=res_dono[1], color='gray', rwidth=0.5,density=True)
+          ax.set_title('Estados='+str(states[h-1]), loc = "center", fontdict = {'fontsize':14, 'fontweight':'normal', 'color':'black'})
+        #plt.savefig('Donante_U_Poisson_acep_20.0_don_30.0.png', bbox_inches='tight', transparent=True)
+        plt.show() #dibujamos el histogram
 
-scores=list()
+        """
+        ## Pseudo Residuales -- Aceptora Normal 
+        """
 
-for n_comp in range(2,11):
-  model = PoissonHMM(n_components=n_comp,n_iter=1000,random_state=4)
-  model.fit(X)
-  c = n_comp*n_comp+2*n_comp-1
-  scores.append(c*np.log(len(X[:,0]))-2*model.score(X))
+        fig = plt.figure(figsize=(15,15))
+        fig.tight_layout()
+        states=[2,3,4,5,6,7,8,9,10]
 
-print(np.round(scores,2))
-fig, ax = plt.subplots()
-lista = ['2','3','4','5','6','7','8','9','10']
-datosbic = {'traye1':scores}
-ax.plot(lista, datosbic['traye1'])
-ax.set_xlabel("Num. Estados")
-ax.set_ylabel("BIC")
-ax.grid(axis = 'y', color = 'gray', linestyle = 'dashed')
-#plt.savefig('BIC_Poisson_acep_20.0_don_30.0.png', bbox_inches='tight', transparent=True)
-plt.show()
+        for h in range(2,5):
+          markovmodel = PoissonHMM(n_components=states[h-1],n_iter=1000)
+          np.random.seed(1)
+          markovmodel.fit(X)
+          lamb_=markovmodel.means_
+          gamma_=markovmodel.transmat_
+          delta_=markovmodel.get_stationary_distribution()
+           
+          ax = plt.subplot(4,4,h)
+          res_acep=pois_HMM_pseudo_residuals(x=X[:,0], delta=delta_, gamma=gamma_, lamb=lamb_[:,0], m=states[h-1])
+            
+          x = np.arange(-4, 4, 0.001)
+          intervalos = range(-6, 7)
+          ax.plot (x, norm.pdf (x, 0, 1))
+          ax.hist(res_acep[0], color='gray', bins=intervalos,rwidth=0.85,density=True)
+          ax.set_title('Num. Estados='+str(states[h-1]), loc = "center", fontdict = {'fontsize':14, 'fontweight':'normal', 'color':'black'})
+          #plt.ylabel('')
+        #plt.savefig('Aceptora_N_Poisson_acep_20.0_don_30.0.png', bbox_inches='tight', transparent=True)
+        plt.show()
+          
+          
+        """
+        ## Pseudo Residuales -- Donante Normal
+        """
+
+        fig = plt.figure(figsize=(15,15))
+        fig.tight_layout()
+        states=[2,3,4,5,6,7,8,9,10]
+
+        for h in range(2,5):
+          markovmodel = PoissonHMM(n_components=states[h-1],n_iter=1000)
+          np.random.seed(1)
+          markovmodel.fit(X)
+          lamb_=markovmodel.means_
+          gamma_=markovmodel.transmat_
+          delta_=markovmodel.get_stationary_distribution()
+          
+          ax = plt.subplot(4,4,h)
+          res_dono=pois_HMM_pseudo_residuals(x=X[:,1], delta=delta_, gamma=gamma_, lamb=lamb_[:,1], m=states[h-1])
+            
+          x = np.arange(-4, 4, 0.001)
+          intervalos = range(-6, 7)
+          ax.plot (x, norm.pdf (x, 0, 1))
+          ax.hist(res_dono[0], color='gray', bins=intervalos,rwidth=0.85,density=True)
+          ax.set_title('Num. Estados='+str(states[h-1]), loc = "center", fontdict = {'fontsize':14, 'fontweight':'normal', 'color':'black'})
+          #plt.ylabel('')
+        #plt.savefig('Donante_N_Poisson_acep_20.0_don_30.0.png', bbox_inches='tight', transparent=True)
+        plt.show()
+
+        """
+        ## Grafica del *BIC*
+        """
+
+        scores=list()
+
+        for n_comp in range(2,11):
+          model = PoissonHMM(n_components=n_comp,n_iter=1000,random_state=4)
+          model.fit(X)
+          c = n_comp*n_comp+2*n_comp-1
+          scores.append(c*np.log(len(X[:,0]))-2*model.score(X))
+
+        print(np.round(scores,2))
+        fig, ax = plt.subplots()
+        lista = [2,3,4,5,6,7,8,9,10]
+        datosbic = {'traye1':scores}
+        ax.plot(lista, datosbic['traye1'])
+        ax.set_xlabel("Num. Estados")
+        ax.set_ylabel("BIC")
+        ax.grid(axis = 'y', color = 'gray', linestyle = 'dashed')
+        #plt.savefig('BIC_Poisson_acep_20.0_don_30.0.png', bbox_inches='tight', transparent=True)
+        plt.show()

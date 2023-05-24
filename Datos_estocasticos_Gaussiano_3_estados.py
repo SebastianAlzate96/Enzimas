@@ -77,7 +77,7 @@ for i in range(n_states-1):
 
 # Construir modelo con los parametros predefinidos
 np.random.seed(1)
-gen_model = PoissonHMM(n_components=n_states,n_iter=1000)
+gen_model = PoissonHMM(n_components=n_states,n_iter=1000, init_params="mcs", params="cmt")
 
 # parámetros, las medias de los componentes
 gen_model.startprob_ = startprob
@@ -93,7 +93,7 @@ X, Z = gen_model.sample(30000) # X es la muestra y Z el camino Viterbi
              #  Valores estimados modelo  Gaussiano HMM#
 ----------------------------------------------------------------------------  
 """
-from hmmlearn import hmm
+
 markovmodel_P = hmm.GaussianHMM(n_components=n_states,n_iter=1000,covariance_type="full")
 
 #lines = inspect.getsource(hmm.GaussianHMM)
@@ -154,6 +154,7 @@ row_indices = ["Background", "State 1", "State 2"]
 column_names = ["Mean Acceptor", "Mean Donor","Acceptor Variance","Donor Variance"]
 means_ = pd.DataFrame(np.round(con_,2), index=row_indices, columns=column_names)
 
+print("\n \n-----Parametros Estiamdos-----\n")
 print(means_) # imprime los valores esperados estimados y la varianza
               # empiricas en cada estado y ordenado de forma ascedente
 
@@ -172,6 +173,8 @@ means_ad = np.delete(means_ad,0,0)
 row_indices = ["Estado 1", "Estado 2"]
 column_names = ["Aceptor", "Donante"]
 means_ = pd.DataFrame(np.round(means_ad,2), index=row_indices, columns=column_names)
+
+print("\n \n-----Parametros Ajustados-----\n")
 print(means_) # valores esperados ajustados y organizados segun la eficiencia
 
 
@@ -180,6 +183,7 @@ eff=means_ad[:,0]/(means_ad[:,0]+means_ad[:,1])
 row_indices = ["Estado 1", "Estado 2"]
 column_names = ["Eficiencias"]
 eff_ = pd.DataFrame(np.round(np.sort(eff),2), index=row_indices, columns=column_names)
+print("\n \n-----Eficiencias Estimadas-----\n")
 print(eff_)
 
 
@@ -205,6 +209,7 @@ for i in range(n_states-1):
     gamm_3[:,i]=gamm_2[:,list(means_ad[:,0]).index(means_sort_ad[i])]
     
 transmat_ = pd.DataFrame( np.round(gamm_3,2))
+print("\n \n-----Matriz de transicion Ajustada-----\n")
 print(transmat_)
 
 """
@@ -221,8 +226,11 @@ markovmodel_R=hmm.GaussianHMM(n_components=2,n_iter=1000,covariance_type="full")
 markovmodel_R.fit(Y) #Estima los parámetros del modelo
 
 mea = np.round(markovmodel_R.means_,2)
+print("\n\n -----Modelo univariado de 2 estados (para detectar rafagas)-----\n")
+print("\n\n -----Valores esperados-----\n")
 print(np.round(mea,2))
 tra = np.round(markovmodel_R.transmat_,2)
+print("\n\n -----Matriz de transicion-----\n")
 print(np.round(tra,2))
 
 
@@ -234,6 +242,7 @@ print(np.round(tra,2))
 
 markovmodel_R= hmm.GaussianHMM(n_components=3, n_iter=1000, covariance_type="full")
 
+print()
 duracion_rafaga(markovmodel_R, Y)
 
 
@@ -492,7 +501,7 @@ for i in range(0,1):
         
         print(np.round(scores,2))
         fig, ax = plt.subplots()
-        lista = ['2','3','4','5','6','7','8','9','10']
+        lista = [2,3,4,5,6,7,8,9,10]
         datosbic = {'traye1':scores}
         ax.plot(lista, datosbic['traye1'])
         ax.set_xlabel("Num. Estados")

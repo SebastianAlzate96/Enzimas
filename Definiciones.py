@@ -67,7 +67,7 @@ class PoissonHMM(_BaseHMM):
 
     def _init(self, X, lengths=None):
         _check_and_set_poisson_n_features(self, X)
-        super()._init(X,lengths=lengths)
+        super()._init(X)
 
         if self._needs_init("m", "means_"):
             kmeans = cluster.KMeans(n_clusters=self.n_components,
